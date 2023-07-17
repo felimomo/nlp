@@ -78,23 +78,28 @@ class gb_book:
 
 # Fine-grained data pre-processing
 
-def rem_punct(bk: gb_book):
+def rem_punct(s: str):
 	""" removes punctuation """
-	bk.text = "".join([char for char in bk.text if char not in PUNCTUATION])
-	return bk
+	s = "".join([char for char in s if char not in PUNCTUATION])
+	return s
 
-def rem_SC(bk: gb_book):
+def rem_SC(s: str):
 	""" removes UTF-8 special characters """
 	for sp_char in UTF8_SC:
-		if sp_char in bk.text:
-			bk.text = bk.text.replace(sp_char, "")
-	return bk
+		if sp_char in s:
+			s = s.replace(sp_char, "")
+	return s
 
-def preprocess(bk: gb_book):
+def preprocess_str(s: str):
+	""" removes special characters, upper cases and punctuation from string """
+	s = rem_punct(s)
+	s = rem_SC(s)
+	s = s.lower()
+	return s
+
+def preprocess_book(bk: gb_book):
 	""" removes special characters, upper cases and punctuation from book """
-	bk = rem_punct(bk)
-	bk = rem_SC(bk)
-	bk.text = bk.text.lower()
+	bk.text = preprocess_str(bk.text)
 	return bk
 
 # N-gram analysis
@@ -127,23 +132,43 @@ def generate_ngrams(sentences, n: int, rm_sw: bool = True):
 	else: 
 		return ngram_list
 
-def ngram_stats(sentences, n_list):
+def ngram_stats(sentences, n_list, verbose=False):
 	freqs_dict = {}
 	for n in n_list:
 		ngram_list = generate_ngrams(sentences, n) 
 		freq_n = nltk.FreqDist(ngram_list)
 		freqs_dict[n] = freq_n
-		print(f"""
-		Most common {n}-grams: {[(list(x),y) for (x,y) in freq_n.most_common(5)]}
-		""")
+		if verbose:
+			print(f"""
+			Most common {n}-grams: {[(list(x),y) for (x,y) in freq_n.most_common(5)]}
+			""")
 	return freqs_dict
+
+
+# PREDICTION
+
+class ngram_predictor:
+
+	def __init__(self, ngram_freqs, n):
+		self.ngram_freqs = ngram_freqs
+		self.n = n
+
+	def input_to_predictor(in_text):
+		preprocessed_text = preprocess_str(in_text)
+		tokenized_text = word_tokenize(preprocessed_text)
+		return [
+			w for w in tokenized_text if w not in STOP_WORDS
+		]
+
+	def branch_pruning(predictor, ngram_freqs):
+		...
 
 
 def main():
 
 	# Corpus creation and pre-processing
 	#
-	library = {bk_id: preprocess(gb_book(bk_id)) for bk_id in BOOK_IDS}
+	library = {bk_id: preprocess_book(gb_book(bk_id)) for bk_id in BOOK_IDS}
 
 	corpus = " ".join(
 		[ book.text for bk_id, book in library.items() ]
@@ -153,6 +178,8 @@ def main():
 	#
 	corpus_sentences = nltk.sent_tokenize(corpus)
 	freq_d = ngram_stats(corpus_sentences, [1, 2, 3, 4])
+	print(type(freq_d[2]))
+	print(freq_d[2])
 
 	# pprint.pprint({bk_id: bk.n_sentences() for bk_id, bk in library.items()})
 	# -> dracula is by far the longest story and is introducing the statistics. 
