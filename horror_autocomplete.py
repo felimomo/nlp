@@ -46,7 +46,8 @@ BOOK_IDS = [
 STOP_WORDS = set(stopwords.words('english'))
 STOP_WORDS.update(
 	{
-		"...", "mr.", "dr.", "ms.", "mrs.", "sir", # generic
+		"...", "mr.", "dr.", "ms.", "mrs.", 
+		"sir", "madam", "madamme", # generic
 		"a.", "b.", "c.", "m." # for some reason, these were very common
 	}
 )
