@@ -44,7 +44,12 @@ BOOK_IDS = [
 ]
 
 STOP_WORDS = set(stopwords.words('english'))
-STOP_WORDS.add("...")
+STOP_WORDS.update(
+	{
+		"...", "mr.", "dr.", "ms.", "mrs.", "sir", # generic
+		"a.", "b.", "c.", "m." # for some reason, these were very common
+	}
+)
 UTF8_SC = {"\r", "\n", "\ufeff"} # UTF-8 special characters
 
 PUNCTUATION = ( 
