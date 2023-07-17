@@ -3,6 +3,7 @@ import nltk
 from nltk import word_tokenize, sent_tokenize
 from nltk.corpus import stopwords
 nltk.download('stopwords')
+nltk.download('punkt')
 from nltk.util import ngrams
 import string
 from gutenbergpy import textget # data cleaning for project gutenberg
