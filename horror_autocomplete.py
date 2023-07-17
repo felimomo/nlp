@@ -149,7 +149,7 @@ def ngram_stats(sentences, n_list, verbose=False):
 
 class ngram_predictor:
 
-	def __init__(self, ngram_freqs, n):
+	def __init__(self, ngram_freqs: nltk.probability.FreqDist, n):
 		self.ngram_freqs = ngram_freqs
 		self.n = n
 
@@ -178,8 +178,7 @@ def main():
 	#
 	corpus_sentences = nltk.sent_tokenize(corpus)
 	freq_d = ngram_stats(corpus_sentences, [1, 2, 3, 4])
-	print(type(freq_d[2]))
-	print(freq_d[2])
+	print(freq_d[2].items())
 
 	# pprint.pprint({bk_id: bk.n_sentences() for bk_id, bk in library.items()})
 	# -> dracula is by far the longest story and is introducing the statistics. 
