@@ -9,6 +9,18 @@ BOOK_IDS = [
 	18247, # the last man
 	15238, # mathilda
 	345, # dracula
+	68283, # cthullu
+	31469, # shunned house
+	68236, # color out of space
+	50133, # dunwich horror
+	70912, # curse of yig
+	70652, # mountains of madness
+	25525, # works of poe, raven edition
+	8486, # ghost stories antiquary
+	5200, # metamorphosis
+	43, # jekyll and clide
+	389, # great god pan
+	23172, # the damned thing
 ]
 
 # API
@@ -29,5 +41,7 @@ def get_gb_book(book_id: int):
 # Corpus creation
 
 library = [gb_book(bk_id, get_gb_book(bk_id)) for bk_id in BOOK_IDS]
-corpus = " ".join([book.decode_text() for book in library])
+corpus = " ".join(
+	[ book.decode_text() for book in library ]
+)
 
