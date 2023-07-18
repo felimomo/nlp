@@ -149,42 +149,64 @@ def ngram_stats(sentences, n_list, verbose=False):
 
 class ngram_predictor:
 
-	def __init__(self, ngram_freqs: nltk.probability.FreqDist, n: int):
+	def __init__(self, ngram_freqs: nltk.probability.FreqDist, n: int, vocabulary):
 		self.ngram_freqs = ngram_freqs
 		self.n = n
+		self.vocabulary = vocabulary
 
-	def str_to_predictor(in_text: str):
+	def str_to_predictor(self, in_text: str):
 		preprocessed_text = preprocess_str(in_text)
 		tokenized_text = word_tokenize(preprocessed_text)
 		return [
 			w for w in tokenized_text if w not in STOP_WORDS
 		]
 
-	def prune_branches(predictor, ngram_freqs: nltk.probability.FreqDist):
+	def prune_branches(self, in_sequence, ngram_freqs: nltk.probability.FreqDist):
 		""" 
-		given a predictor sequence, keep only ngram_freqs 
+		given a in_sequence word sequence, keep only ngram_freqs 
 		which are compatible with it. 
 		"""
-		def item_compatible(predictor, ngram_item):
+		def item_compatible(in_sequence, gram):
 			"""
-			ngram_item: one of the entries of ngram_freqs.items()
-				= (gram [tuple], freq)
+			gram: a tuple of words
 			predictor: tuple of words
+
+			Compare whether the gram is a possible completion of the predictor
+			sequence.
 			"""
-			return all(predictor == ngram_item[0][:len(predictor)])
+			sub_gram = gram[:-1]
+			if len(in_sequence) >= len(sub_gram):
+				return all(in_sequence[-len(sub_gram):] == sub_gram)
+			#
+			return all(in_sequence == sub_gram[:len(in_sequence)])
+		
+		return [ 
+			(gram, freq)
+			#
+			for gram, freq in ngram_freqs.items() 
+			#
+			if item_compatible(in_sequence, gram)
+		]
 
-		# ngram_f_items = 
-		return None
-
-
-
-
-	def freq_to_prob(ngram_freqs: nltk.probability.FreqDist):
+	def predictor_distribution(self, in_sequence):
 		""" 
 		from a set of frequencies, produces a distribution from which to
-		sample n-grams 
+		sample n-grams.
+
+		ngram_freqs_list: list of shape [(ngram, freq)]
 		"""
-		...
+		restr_ngram_freqs = self.prune_branches(
+			in_sequence, self.ngram_freqs
+		)
+
+		if len(restr_ngram_freqs) > 0:
+			total_N = sum(list(zip(*ngram_freqs_list))[1])
+			return [ (gram[-1], freq/total_N) for (gram, freq) in ngram_freqs_list ]
+		
+		else:
+			return [ (word, 1/len(self.vocabulary)) for word in vocabulary ]
+
+				
 
 
 def main():
