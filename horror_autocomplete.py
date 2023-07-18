@@ -149,18 +149,41 @@ def ngram_stats(sentences, n_list, verbose=False):
 
 class ngram_predictor:
 
-	def __init__(self, ngram_freqs: nltk.probability.FreqDist, n):
+	def __init__(self, ngram_freqs: nltk.probability.FreqDist, n: int):
 		self.ngram_freqs = ngram_freqs
 		self.n = n
 
-	def input_to_predictor(in_text):
+	def str_to_predictor(in_text: str):
 		preprocessed_text = preprocess_str(in_text)
 		tokenized_text = word_tokenize(preprocessed_text)
 		return [
 			w for w in tokenized_text if w not in STOP_WORDS
 		]
 
-	def branch_pruning(predictor, ngram_freqs):
+	def prune_branches(predictor, ngram_freqs: nltk.probability.FreqDist):
+		""" 
+		given a predictor sequence, keep only ngram_freqs 
+		which are compatible with it. 
+		"""
+		def item_compatible(predictor, ngram_item):
+			"""
+			ngram_item: one of the entries of ngram_freqs.items()
+				= (gram [tuple], freq)
+			predictor: tuple of words
+			"""
+			return all(predictor == ngram_item[0][:len(predictor)])
+
+		# ngram_f_items = 
+		return None
+
+
+
+
+	def freq_to_prob(ngram_freqs: nltk.probability.FreqDist):
+		""" 
+		from a set of frequencies, produces a distribution from which to
+		sample n-grams 
+		"""
 		...
 
 
