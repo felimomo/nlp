@@ -201,7 +201,7 @@ def main():
 	#
 	corpus_sentences = nltk.sent_tokenize(corpus)
 	freq_d = ngram_stats(corpus_sentences, [1, 2, 3, 4])
-	print(freq_d[2].items())
+	print(freq_d[4].items())
 
 	# pprint.pprint({bk_id: bk.n_sentences() for bk_id, bk in library.items()})
 	# -> dracula is by far the longest story and is introducing the statistics. 
