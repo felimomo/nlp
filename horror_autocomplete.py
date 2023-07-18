@@ -11,36 +11,36 @@ from gutenbergpy import textget # data cleaning for project gutenberg
 # globals
 
 BOOK_IDS = [
-	42324, # frankenstein 
-	18247, # the last man
-	15238, # mathilda
-	345, # dracula
+	# 42324, # frankenstein 
+	# 18247, # the last man
+	# 15238, # mathilda
+	# 345, # dracula
 	68283, # cthullu
-	31469, # shunned house
-	68236, # color out of space
-	50133, # dunwich horror
-	70912, # curse of yig
-	70652, # mountains of madness
-	25525, # works of poe, raven edition
-	8486, # ghost stories antiquary
-	5200, # metamorphosis
-	43, # jekyll and clide
-	389, # great god pan
-	23172, # the damned thing
-	10897, # the wendigo
-	10007, # carmilla
-	71168, # black canaan
-	209, # turn of the screw
-	71065, # the hyena
-	71066, # dig me no grave
-	71109, # black hound death
-	71180, # grisly horror
-	175, # phantom of the opera
-	696, # castle of othranto
-	14833, # varney the vampire
-	11438, # the willows
-	10662, # the night land
-	5324, # book of werewolves
+	# 31469, # shunned house
+	# 68236, # color out of space
+	# 50133, # dunwich horror
+	# 70912, # curse of yig
+	# 70652, # mountains of madness
+	# 25525, # works of poe, raven edition
+	# 8486, # ghost stories antiquary
+	# 5200, # metamorphosis
+	# 43, # jekyll and clide
+	# 389, # great god pan
+	# 23172, # the damned thing
+	# 10897, # the wendigo
+	# 10007, # carmilla
+	# 71168, # black canaan
+	# 209, # turn of the screw
+	# 71065, # the hyena
+	# 71066, # dig me no grave
+	# 71109, # black hound death
+	# 71180, # grisly horror
+	# 175, # phantom of the opera
+	# 696, # castle of othranto
+	# 14833, # varney the vampire
+	# 11438, # the willows
+	# 10662, # the night land
+	# 5324, # book of werewolves
 ]
 
 STOP_WORDS = set(stopwords.words('english'))
